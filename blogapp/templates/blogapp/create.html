@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<style>
+    form{
+        box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+        background-color: white;
+        width: 400px !important;
+        border-radius: 10px;
+        padding: 20px 20px 20px 20px !important;
+        margin: 20px auto !important
+    }
+
+    form input{
+        height: 40px !important;
+    }
+
+    form h4{
+        margin-bottom: 20px !important;
+        text-align: center !important
+    }
+
+    form p{
+        text-align: center
+    }
+
+    form small{
+        color: red
+    }
+
+</style>
+
+<form action="" method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+
+    {% if update %}
+        <h4>Update your content</h4>
+    {% else %}
+        <h4>Create your content</h4>
+    {% endif %}
+
+    {% for field in form %}
+        {% if field.errors %}
+            <div class="mb-3">
+                <label for="">{{field.label}}</label>
+                {{field}}
+            </div>
+            <small>{{field.errors}}</small>
+        {% else %}
+            <div class="mb-3">
+                <label for="">{{field.label}}</label>
+                {{field}}
+            </div>
+        {% endif %}
+    {% endfor %}
+
+    {% if update %}
+        <button class="btn btn-primary" style="width: 100%">Update article</button>
+    {% else %}
+        <button class="btn btn-primary" style="width: 100%">Create article</button>
+    {% endif %}
+</form>
+
+{% endblock content %}

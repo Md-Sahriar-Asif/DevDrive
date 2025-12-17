@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<style>
+    form{
+        box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+        background-color: white;
+        width: 600px !important;
+        border-radius: 10px;
+        padding: 20px 20px 20px 20px !important;
+        margin: 20px auto !important
+    }
+
+    form h4{
+        margin-bottom: 20px !important;
+        text-align: center !important
+    }
+
+    form p{
+        text-align: center
+    }
+
+    form small{
+        color: red
+    }
+
+</style>
+
+<form action="" method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+    <h4>Get your profile updated</h4>
+    {% for field in form %}
+        {% if field.errors %}
+                <div class="mb-3">
+                    {{field}}
+                </div>
+                <small>{{field.errors}}</small>
+        {% else %}
+                <div class="mb-3">
+                    {{field}}
+                </div>
+        {% endif %}
+    {% endfor %}
+    <button class="btn btn-primary" style="width: 100%">Update Profile</button>
+</form>
+
+{% endblock content %}
+

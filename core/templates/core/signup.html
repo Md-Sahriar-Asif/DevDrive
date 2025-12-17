@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<style>
+    form{
+        box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+        background-color: white;
+        width: 400px !important;
+        border-radius: 10px;
+        padding: 20px 20px 20px 20px !important;
+        margin: 20px auto !important
+    }
+
+    form input{
+        height: 40px !important;
+    }
+
+    form h4{
+        margin-bottom: 20px !important;
+        text-align: center !important
+    }
+
+    form p{
+        text-align: center
+    }
+
+    form small{
+        color: red
+    }
+
+</style>
+
+<form action="" method="POST">
+  {% csrf_token %}
+  <h4>Create an account</h4>
+
+  {% for field in form %}
+    {% if field.errors %}
+      <div class="mb-3">
+        {{field}}
+        <small>{{field.errors}}</small>
+      </div>
+
+    {% else %}
+      <div class="mb-3">
+        {{field}}
+      </div>
+    {% endif %}
+  {% endfor %}
+  <button class="btn btn-primary" style="width:100%">Creat account</button>
+  <p>Already have an account? <a href="{% url 'signin' %}">Login</a></p>
+</form>
+
+{% endblock content %}
+

@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<style>
+    form{
+        box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+        background-color: white;
+        width: 400px !important;
+        border-radius: 10px;
+        padding: 20px 20px 20px 20px !important;
+        margin: 20px auto !important
+    }
+
+    form h4{
+        margin-bottom: 20px !important;
+        text-align: center !important
+    }
+
+    form p{
+        text-align: center
+    }
+
+    form small{
+        color: red
+    }
+
+</style>
+
+<form action="" method='POST'>
+    {% csrf_token %}
+    <h4>Welcome back!</h4>
+
+    <div class="mb-3">
+        <input type="email" name="email" class="form-control" id="exampleFormControlInput1" placeholder="name@example.com">
+    </div>
+
+      <div class="mb-3">
+        <input type="password" name="password" class="form-control" id="exampleFormControlInput1" placeholder="Enter password">
+      </div>
+
+      <button class="btn btn-primary" style="width: 100%; margin: 10px auto;">Login to your account</button>
+      
+    <p>Don't have an account? <a href="{% url 'signup' %}">Register</a></p>
+
+</form>
+    
+{% endblock content %}

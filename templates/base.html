@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+
+{% load static %}
+
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+        <meta name="description" content="" />
+        <meta name="author" content="" />
+        <title>DevDrive - Tech</title>
+        <!-- Favicon-->
+        <link rel="icon" type="image/x-icon" href="{% static 'assets/favicon.ico' %}" />
+        <!-- Core theme CSS (includes Bootstrap)-->
+        <link href="{% static 'css/style.css' %}" rel="stylesheet" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/brands.min.css" integrity="sha512-8RxmFOVaKQe/xtg6lbscU9DU0IRhURWEuiI0tXevv+lXbAHfkpamD4VKFQRto9WgfOJDwOZ74c/s9Yesv3VvIQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+        {% comment %} <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/fontawesome.min.css" integrity="sha512-d0olNN35C6VLiulAobxYHZiXJmq+vl+BGIgAxQtD5+kqudro/xNMvv2yIHAciGHpExsIbKX3iLg+0B6d0k4+ZA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/regular.min.css" integrity="sha512-TzeemgHmrSO404wTLeBd76DmPp5TjWY/f2SyZC6/3LsutDYMVYfOx2uh894kr0j9UM6x39LFHKTeLn99iz378A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/solid.min.css" integrity="sha512-pZlKGs7nEqF4zoG0egeK167l6yovsuL8ap30d07kA5AJUq+WysFlQ02DLXAmN3n0+H3JVz5ni8SJZnrOaYXWBA==" crossorigin="anonymous" referrerpolicy="no-referrer" /> {% endcomment %}
+        <style>
+            a{
+                text-decoration: none;
+            }
+            .mynav ul a{
+                color: white !important
+            }
+
+            .mynav ul li .dropdown-item:hover{
+                color: black !important
+            }
+
+            .mynav ul{
+                margin-left: auto;
+            }
+
+        </style>
+    </head>
+    <body>
+        <!-- Responsive navbar-->
+        <nav class="navbar mynav navbar-expand-lg navbar-dark bg-dark">
+            <div class="container">
+                <a class="navbar-brand me-8" href="{% url 'index' %}">DevDrive</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+                  <span class="navbar-toggler-icon"></span>
+                </button>
+              <div class="collapse navbar-collapse" id="navbarNavDropdown">
+                <ul class="navbar-nav">
+
+                  {% if request.user.is_authenticated %}
+                    <li class="nav-item active dropdown">
+                      <a class="nav-link dropdown-toggle" href="#" role="button" style="color: white" data-bs-toggle="dropdown" aria-expanded="false">
+                        Hi, {{request.user.username}}
+                      </a>
+                      <ul class="dropdown-menu bg-dark">
+                        <li><a class="dropdown-item" href="{% url 'profile' %}">Profile</a></li>
+                        <li><a class="dropdown-item" href="{% url 'create-article' %}">Create Articles</a></li>
+                        <li><a class="dropdown-item" href="{% url 'signout' %}">Logout</a></li>
+                      </ul>
+                    </li>
+
+                  {% else %}
+                    <li class="nav-item me-3">
+                      <a href="{% url 'signup' %}">
+                        <button type="button" class="btn btn-outline-light">SignUp</button>
+                      </a>
+                    </li>
+
+                    <li class="nav-item me-3">
+                      <a href="{% url 'signin' %}">
+                      <button type="button" class="btn btn-outline-light">Login</button>
+                      </a>
+                    </li>
+
+                  {% endif %}
+
+                </ul>
+              </div>
+            </div>
+        </nav>
+
+        {% for message in messages %}
+          <div class="container">
+            <div class="alert alert-{{message.tags}}" style="margin-top: 20px" role="alert">
+              {{message}}
+            </div>
+          </div>
+        {% endfor %}
+
+        {% block content %}
+          <h1>Hello Developer</h1>
+        {% endblock content %}
+
+        <footer class="py-5 bg-dark">
+            <div class="container">
+              <div class="row">
+                <!-- Navigation Links -->
+                <div class="col-lg-3 col-md-6 mb-4">
+                  <h5 class="text-white mb-3">Quick Links</h5>
+                  <ul class="list-unstyled">
+                    <li class="mb-2"><a href="{% url 'index' %}" class="text-white">Home</a></li>
+                    <li class="mb-2"><a href="{% url 'profile' %}" class="text-white">About</a></li>
+                    <li class="mb-2"><a href="{% url 'profile' %}" class="text-white">Tech Journeys</a></li>
+                    <li class="mb-2"><a href="{% url 'profile' %}" class="text-white">Contact</a></li>
+                  </ul>
+                </div>
+
+                <!-- Social Media Links -->
+                <div class="col-lg-3 col-md-6 mb-4">
+                  <h5 class="text-white mb-3">Wanna Aura Farm?</h5>
+                  <ul class="list-unstyled">
+                    <li class="mb-2"><a href="https://x.com/SAReeman4" target="_blank" class="text-white text-decoration-none">Twitter</a></li>
+                    <li class="mb-2"><a href="https://www.linkedin.com/in/md-sahriar-asif/" target="_blank" class="text-white text-decoration-none">LinkedIn</a></li>
+                    <li class="mb-2"><a href="https://github.com/Md-Sahriar-Asif" target="_blank" class="text-white text-decoration-none">GitHub</a></li>
+                    <li class="mb-2"><a href="https://codeforces.com/profile/S_A_Reeman" target="_blank" class="text-white text-decoration-none">Codeforces</a></li>
+                    <!-- Add more social media links as needed -->
+                  </ul>
+                </div>
+
+                 <!-- Learning Resources -->
+                 <div class="col-lg-3 col-md-6 mb-4">
+                  <h5 class="text-white mb-3">Learning Resouces</h5>
+                  <ul class="list-unstyled">
+                    <li class="mb-2"><a href="https://www.freecodecamp.org/" target="_blank" class="text-white text-decoration-none">FreeCodeCamp</a></li>
+                    <li class="mb-2"><a href="https://netninja.dev/" target="_blank" class="text-white text-decoration-none">NetNinja</a></li>
+                    <li class="mb-2"><a href="https://testdriven.io/" target="_blank" class="text-white text-decoration-none">TestDriven.io</a></li>
+                    <li class="mb-2"><a href="https://www.geeksforgeeks.org/" target="_blank" class="text-white text-decoration-none">Geeks for Geeks</a></li>
+                  </ul>
+                </div>
+
+                <!-- Copyright Information -->
+                <div class="col-lg-3 col-md-6 mb-4">
+                  <h5 class="text-white mb-3">© DevDrive</h5>
+                  <p class="text-white-50 small">All rights reserved © 2024</p>
+                  <p class="text-white-50 small">Empowering developers to share their tech journeys.</p>
+                </div>
+              </div>
+            </div>
+          </footer>
+
+<!-- Bootstrap core JS-->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+<!-- Core theme JS-->
+<script src="js/scripts.js"></script>
+</body>
+</html>

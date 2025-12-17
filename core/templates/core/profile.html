@@ -1,0 +1,183 @@
+{% extends "base.html" %} 
+
+{% block content %}
+
+<style>
+  .icons{
+      width: auto;
+      padding: 10px 10px 10px 10px;
+  }
+
+  .icons i{
+      font-size: 20px;
+      cursor: pointer;
+      margin: 5px 5px 5px 5px
+  }
+
+  .icons a{
+      color: black;
+  }
+
+  .actions a{
+    color: black !important;
+  }
+
+  .actions a .fa-solid{
+    font-size: 20px !important;
+    margin-right: 10px;
+  }
+</style>
+
+<div class="container">
+
+{% if del %}
+<br>
+    <div class="alert alert-danger" role="alert">
+      <p>Do you want to delete the article <strong>{{blog.title}}</strong> </p>
+      <form action="" method="POST">
+        {% csrf_token %}
+        <span>
+          <a href="{% url 'profile' %}" class="btn btn-secondary">Cancel</a>
+          <a href=""><button class="btn btn-danger">Delete</button></a>
+        </span>
+      </form>
+    </div>
+  
+{% endif %}
+
+    <div class="main-body">
+          <!-- Breadcrumb -->
+          <nav aria-label="breadcrumb" class="main-breadcrumb">
+            <ol class="breadcrumb"></ol>
+          </nav>
+
+          <!-- /Breadcrumb -->
+          <div class="row gutters-sm">
+            <div class="col-md-4 mb-3">
+              <div class="card">
+                <div class="card-body">
+                  <div class="d-flex flex-column align-items-center text-center">
+                    
+                    {% if user.profile_pic %}
+                        <img src="{{user.profile_pic.url}}" alt="Admin" class="rounded-circle" width="150">
+                    {% else %}
+                        <img src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="Admin" class="rounded-circle" width="150">
+                    {% endif %}
+                    
+                    <div class="mt-3">
+                      <h4>{{user.first_name}} {{user.last_name}}</h4>
+                      <p class="text-secondary mb-1">{{user.role}}</p>
+                      <p class="text-muted font-size-sm">{{user.address}}</p>
+
+                      <p><strong>{{ user.followers.count }}</strong> Followers</p>
+
+                      {% if not is_own_profile %}
+                        <a href="{% url 'follow-user' user.username %}"
+                           class="btn {% if is_following %}btn-secondary{% else %}btn-primary{% endif %}">
+                          {% if is_following %}Unfollow{% else %}Follow{% endif %}
+                        </a>
+                      {% endif %}
+
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-md-8">
+              <div class="card mb-3">
+                <div class="card-body">
+                  <div class="row">
+                    <div class="col-sm-3">
+                      <h6 class="mb-0">Bio</h6>
+                    </div>
+                    <div class="col-sm-9 text-secondary">
+                      {{user.bio}}
+                    </div>
+                  </div>
+                  <hr>
+                  <div class="row">
+                    <div class="col-sm-3">
+                      <h6 class="mb-0">Email</h6>
+                    </div>
+                    <div class="col-sm-9 text-secondary">
+                      {{user.email}}
+                    </div>
+                  </div>
+                  <hr>
+                  <div class="row">
+                    <div class="col-sm-3">
+                      <h6 class="mb-0">Phone</h6>
+                    </div>
+                    <div class="col-sm-9 text-secondary">
+                      {{user.phone}}
+                    </div>
+                  </div>
+                  <hr>
+                  <div class="row">
+                    <div class="col-sm-3">
+                      <h6 class="mb-0">Username</h6>
+                    </div>
+                    <div class="col-sm-9 text-secondary">
+                      {{user.username}}
+                    </div>
+                  </div>
+                  <hr>
+                  <div class="row">
+                    <div class="col-sm-3">
+                      <h6 class="mb-0">Address</h6>
+                    </div>
+                    <div class="col-sm-9 text-secondary">
+                      {{user.address}}
+                    </div>
+                  </div>
+                  <hr>
+                  {% if is_own_profile %}
+                    <div class="row">
+                      <div class="col-sm-12">
+                        <a class="btn btn-info " target="__blank" href="{% url 'update-profile' %}">Edit</a>
+                      </div>
+                    </div>
+                  {% endif %}
+                </div>
+              </div>
+
+              <div class="container blog-container" style="border: 1px solid silver">
+
+                {% if is_own_profile %}
+                  <h5>My Articles</h5>
+                {% else %}
+                  <h5>Articles</h5>
+                {% endif %}
+
+                <div class="row">
+                  {% for blog in blogs  %}
+                  <div class="col-md-6">
+                    <div class="card mb-4">
+                      <a href="#!"><img class="card-img-top" src="{{blog.thumbnail.url}}" alt="..." /></a>
+                      <div class="card-body">
+                          <div class="small text-muted">{{blog.created}}</div>
+                          <h2 class="card-title h4">{{blog.title}}</h2>
+                          <p class="card-text">{{blog.body | safe | truncatechars:"100"}}</p>
+                          <a class="btn btn-primary" href="{% url 'detail' slug=blog.slug %}">Read more →</a>
+
+                          {% if is_own_profile %}
+                            <span style="float: right" class="actions">
+                              <a href="{% url 'update-article' blog.slug %}"><i class="fa-solid fa-pen-to-square"></i></a>
+                              <a href="{% url 'delete-article' blog.slug %}"><i class="fa-solid fa-trash-can"></i></a>
+                            </span>
+                          {% endif %}
+                      </div>
+                    </div>
+                  </div>
+                    
+                  {% endfor %}
+                    
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+    </div>
+
+{% endblock content %}
