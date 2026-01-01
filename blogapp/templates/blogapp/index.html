@@ -3,30 +3,250 @@
 {% block content %}
 
 <style>
+:root {
+    --primary-color: #10b981;
+    --primary-dark: #059669;
+    --secondary-color: #14b8a6;
+    --accent-color: #06b6d4;
+    --bg-gradient-start: #0ea5e9;
+    --bg-gradient-end: #06b6d4;
+    --text-dark: #0f172a;
+    --text-light: #64748b;
+    --card-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    --card-shadow-hover: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+}
+
 .blog-card {
-    height: 100% !important;
-    display: flex !important;
-    flex-direction: column !important;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
 }
 
 .blog-card .card-body {
-    flex-grow: 1 !important;
-    display: flex !important;
-    flex-direction: column !important;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
 }
 
 .blog-card .card-text {
-    flex-grow: 1 !important;
+    flex-grow: 1;
 }
 
 .blog-card .card-img-top {
-    height: 200px !important;
-    object-fit: cover !important;
+    height: 200px;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
+
+.card {
+    border: none;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(16, 185, 129, 0.15), 0 1px 3px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+    overflow: hidden;
+    background: white;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 24px rgba(16, 185, 129, 0.25), 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+.card:hover .card-img-top {
+    transform: scale(1.05);
+}
+
+.page-header-gradient {
+    background: linear-gradient(135deg, #0ea5e9 0%, #06b6d4 50%, #10b981 100%);
+    border: none;
+    color: white;
+    position: relative;
+    overflow: hidden;
+}
+
+.page-header-gradient::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(45deg, rgba(255,255,255,0.1) 25%, transparent 25%, transparent 75%, rgba(255,255,255,0.1) 75%, rgba(255,255,255,0.1)),
+                linear-gradient(45deg, rgba(255,255,255,0.1) 25%, transparent 25%, transparent 75%, rgba(255,255,255,0.1) 75%, rgba(255,255,255,0.1));
+    background-size: 60px 60px;
+    background-position: 0 0, 30px 30px;
+    opacity: 0.3;
+}
+
+.page-header-gradient h1 {
+    font-weight: 800;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+    position: relative;
+    z-index: 1;
+    animation: slideInDown 0.8s ease-out, floatContinuous 3s ease-in-out 0.8s infinite;
+}
+
+.page-header-gradient p {
+    font-size: 1.1rem;
+    opacity: 0.95;
+    position: relative;
+    z-index: 1;
+    animation: slideInUp 0.8s ease-out 0.2s backwards;
+}
+
+@keyframes slideInDown {
+    from {
+        opacity: 0;
+        transform: translateY(-30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes slideInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 0.95;
+        transform: translateY(0);
+    }
+}
+
+@keyframes floatContinuous {
+    0%, 100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-10px);
+    }
+}
+
+.btn-primary {
+    background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+    border: none;
+    padding: 0.6rem 1.5rem;
+    border-radius: 8px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    color: white;
+}
+
+.btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 20px rgba(16, 185, 129, 0.4);
+    background: linear-gradient(135deg, var(--primary-dark) 0%, var(--secondary-color) 100%);
+}
+
+.card-title {
+    color: var(--text-dark);
+    font-weight: 700;
+    margin-bottom: 0.75rem;
+}
+
+.card-text {
+    color: var(--text-light);
+    line-height: 1.6;
+}
+
+.text-muted {
+    color: var(--secondary-color) !important;
+    font-weight: 600;
+    font-size: 0.85rem;
+}
+
+.card-header {
+    background: linear-gradient(135deg, #1e293b 0%, #334155 100%);
+    color: white;
+    font-weight: 700;
+    border: none;
+    padding: 1rem 1.25rem;
+}
+
+.badge {
+    background: linear-gradient(135deg, var(--primary-color) 0%, var(--accent-color) 100%) !important;
+    padding: 0.5rem 1rem;
+    font-weight: 600;
+    font-size: 0.75rem;
+    margin-bottom: 0.5rem;
+    transition: transform 0.2s ease;
+    cursor: pointer;
+    border: none;
+}
+
+.badge:hover {
+    transform: scale(1.05);
+    box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+}
+
+.pagination .page-link {
+    color: var(--primary-color);
+    border: 2px solid #e2e8f0;
+    border-radius: 8px;
+    margin: 0 0.25rem;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.pagination .page-link:hover {
+    background-color: var(--primary-color);
+    color: white;
+    border-color: var(--primary-color);
+    transform: translateY(-2px);
+}
+
+.pagination .page-item.active .page-link {
+    background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+    border-color: transparent;
+    color: white !important;
+}
+
+.form-control {
+    border: 2px solid #e2e8f0;
+    transition: all 0.3s ease;
+}
+
+.form-control:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 0.2rem rgba(16, 185, 129, 0.25);
+}
+
+.input-group .btn {
+    border-radius: 0 8px 8px 0;
+}
+
+.input-group .form-control {
+    border-radius: 8px 0 0 8px;
+    border-right: none;
+}
+
+.container {
+    max-width: 1200px;
+}
+
+.mb-4 {
+    margin-bottom: 2rem !important;
+}
+
+.error-message {
+    color: #dc2626;
+    font-weight: 600;
+    background: #fee2e2;
+    padding: 1rem;
+    border-radius: 8px;
+    border-left: 4px solid #dc2626;
+}
+
+body {
+    background-color: #f8fafc;
 }
 </style>
 
  <!-- Page header with logo and tagline-->
- <header class="py-5 bg-light border-bottom mb-4">
+ <header class="py-5 page-header-gradient border-bottom mb-4">
     <div class="container">
         <div class="text-center my-5">
             <h1 class="fw-bolder">Welcome to DevDrive!</h1>
@@ -44,7 +264,7 @@
         <div class="col-lg-8 blog-card">
             <!-- Featured blog post-->
             {% if msg %}
-                <p class="display-6" style="color: darkred; font-weight: 70">{{msg}}</p>
+                <p class="error-message">{{msg}}</p>
             {% endif %}
 
             {% for f_blog in f_blog %}
@@ -98,7 +318,8 @@
 
                     {% if blogs.has_next %}
                         <li class="page-item"><a class="page-link" href="?page={{blogs.next_page_number}}"
-                        tabindex="-1" aria-disabled="true">Next</a></li>
+                        tabindex="-1" aria-disabled="true">Next</a>
+                        </li>
                     {% endif %}
                 </ul>
             </nav>
